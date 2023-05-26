@@ -40,13 +40,14 @@ public class TutorialController {
     }
 
     //4 done
-    @ApiOperation(value = "Remove tutorial",notes = "Remove tutorial by id")
+    @ApiOperation(value = "Remove by id",notes = "Remove tutorial by id")
     @DeleteMapping("/tutorials/{id}")
     public int removeById(@PathVariable @ApiParam(name = "id",value = "Tutorial id",example = "1") Long id) {
         return tutorialService.removeById(id);
     }
 
     //5 done
+    @ApiOperation(value = "Get all",notes = "Get all tutorials")
     @GetMapping("/tutorials")
     @ResponseBody
     public List<TutorialDto> getAll() {

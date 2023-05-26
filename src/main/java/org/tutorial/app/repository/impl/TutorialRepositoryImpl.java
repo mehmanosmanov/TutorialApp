@@ -1,6 +1,7 @@
 package org.tutorial.app.repository.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -12,8 +13,10 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class TutorialRepositoryImpl implements TutorialRepository {
-    private final JdbcTemplate jdbcTemplate;
+    @Value("${spring.application.name}")
+    private String name;
 
+    private final JdbcTemplate jdbcTemplate;
 
     @Override
     public int save(Tutorial book) {
