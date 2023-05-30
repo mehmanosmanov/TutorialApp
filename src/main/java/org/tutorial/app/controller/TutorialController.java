@@ -1,6 +1,9 @@
 package org.tutorial.app.controller;
 
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.tutorial.app.dto.request.TutorialRequest;
@@ -65,7 +68,6 @@ public class TutorialController {
     public List<TutorialResponse> getByTitleContain(@RequestParam String title) {
         return tutorialService.getByTitleContaining(title);
     }
-
 
     //8 done
     @DeleteMapping("/tutorials")
