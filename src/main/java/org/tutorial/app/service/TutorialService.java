@@ -1,24 +1,25 @@
 package org.tutorial.app.service;
 
-import org.tutorial.app.dto.TutorialDto;
+import org.tutorial.app.dto.request.TutorialRequest;
+import org.tutorial.app.dto.response.TutorialResponse;
 
 import java.util.List;
 
 public interface TutorialService {
-    int create(TutorialDto book);
+    String create(TutorialRequest book);
 
-    int update(TutorialDto book, Long id);
+    String update(TutorialRequest tutorialRequest, Long id);
 
-    TutorialDto getById(Long id);
+    TutorialResponse getById(Long id);
 
-    int removeById(Long id);
+    String removeById(Long id);
 
-    List<TutorialDto> getAll();
+    List<TutorialResponse> getAll();
 
-    List<TutorialDto> getByPublished(boolean published);
+    List<TutorialResponse> getByPublished(boolean published);
 
-    List<TutorialDto> getByTitleContaining(String title);
+    List<TutorialResponse> getByTitleContaining(String title);
 
-    int removeAll();
+    long removeAll();
 
 }

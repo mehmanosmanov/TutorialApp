@@ -1,16 +1,28 @@
 package org.tutorial.app.model;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Data
 @Builder
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "tutorials")
 public class Tutorial {
-    private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+    @Column(length = 55)
     private String title;
+    @Column(length = 100)
     private String name;
+    @Column(length = 55)
     private String subject;
     private Boolean published;
 
