@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.tutorial.app.dto.request.TutorialRequest;
 import org.tutorial.app.dto.response.TutorialResponse;
 import org.tutorial.app.exceptions.NotFoundException;
-import org.tutorial.app.exceptions.TutorialAlreadyExistsException;
 import org.tutorial.app.entity.Tutorial;
 import org.tutorial.app.repository.TutorialRepository;
 import org.tutorial.app.service.TutorialService;
