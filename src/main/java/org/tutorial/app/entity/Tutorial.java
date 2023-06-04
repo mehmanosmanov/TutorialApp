@@ -1,4 +1,4 @@
-package org.tutorial.app.model;
+package org.tutorial.app.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

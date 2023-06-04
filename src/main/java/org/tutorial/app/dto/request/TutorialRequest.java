@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TutorialRequest {
-    @ApiModelProperty(notes = "Tutorial id", example = "1", required = true)
-    private Long id;
     @ApiModelProperty(notes = "Tutorial title", example = "java-ee", required = true)
     private String title;
     @ApiModelProperty(notes = "Tutorial name", example = "Thinking Java", required = true)

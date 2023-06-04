@@ -2,9 +2,7 @@ package org.tutorial.app.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.tutorial.app.model.Tutorial;
-
-import java.util.List;
+import org.tutorial.app.entity.Tutorial;
 
 
 @Repository

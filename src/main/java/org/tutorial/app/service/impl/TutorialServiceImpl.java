@@ -1,12 +1,13 @@
 package org.tutorial.app.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.tutorial.app.dto.request.TutorialRequest;
 import org.tutorial.app.dto.response.TutorialResponse;
 import org.tutorial.app.exceptions.NotFoundException;
 import org.tutorial.app.exceptions.TutorialAlreadyExistsException;
-import org.tutorial.app.model.Tutorial;
+import org.tutorial.app.entity.Tutorial;
 import org.tutorial.app.repository.TutorialRepository;
 import org.tutorial.app.repository.impl.DemoRepository;
 import org.tutorial.app.service.TutorialService;
@@ -16,15 +17,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class TutorialServiceImpl implements TutorialService {
 
     private final TutorialRepository tutorialRepository;
-    private final DemoRepository demoRepository;
-
-    public TutorialServiceImpl(TutorialRepository tutorialRepository, DemoRepository demoRepository) {
-        this.tutorialRepository = tutorialRepository;
-        this.demoRepository = demoRepository;
-    }
 
     @Override
     public String create(TutorialRequest request) {
@@ -44,8 +40,16 @@ public class TutorialServiceImpl implements TutorialService {
     public String update(TutorialRequest tutorialRequest, Long id) {
         getById(id);
         log.info("Start to update tutorial by 'id {}' ", id);
-        Tutorial book = convertToTutorial(tutorialRequest);
-//        demoRepository.update(book, id);
+        Tutorial oldTutorial = tutorialRepository.findById(id).orElseThrow(
+                () -> {
+                    log.warn("Tutorial is not found with id={} ", id);
+                    return new NotFoundException("No such tutorial with id=" + id);
+                });
+        oldTutorial.setName(tutorialRequest.getName());
+        oldTutorial.setSubject(tutorialRequest.getSubject());
+        oldTutorial.setTitle(tutorialRequest.getTitle());
+        oldTutorial.setPublished(tutorialRequest.getPublished());
+        tutorialRepository.save(oldTutorial);
         log.info("Tutorial 'id={}' is updated", id);
         return "Tutorial updated successfully";
     }
@@ -66,10 +70,14 @@ public class TutorialServiceImpl implements TutorialService {
     @Override
     public String removeById(Long id) {
         log.info("Starting to search the tutorial in DB");
-        getById(id);
+        Tutorial tutorial = tutorialRepository.findById(id).orElseThrow(
+                () -> {
+                    log.warn("Tutorial is not found with id={} ", id);
+                    return new NotFoundException("No such tutorial with id=" + id);
+                });
         log.warn("Deleting 'id={}' tutorial", id);
         tutorialRepository.deleteById(id);
-        return "Tutorial with id="+id+" deleted successfully";
+        return "Tutorial with id=" + id + " deleted successfully";
     }
 
     @Override
