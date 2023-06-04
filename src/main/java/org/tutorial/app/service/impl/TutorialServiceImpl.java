@@ -9,7 +9,6 @@ import org.tutorial.app.exceptions.NotFoundException;
 import org.tutorial.app.exceptions.TutorialAlreadyExistsException;
 import org.tutorial.app.entity.Tutorial;
 import org.tutorial.app.repository.TutorialRepository;
-import org.tutorial.app.repository.impl.DemoRepository;
 import org.tutorial.app.service.TutorialService;
 
 import java.util.List;
@@ -24,14 +23,9 @@ public class TutorialServiceImpl implements TutorialService {
 
     @Override
     public String create(TutorialRequest request) {
-
-        Tutorial tutorial = tutorialRepository.findById(request.getId()).orElseThrow(null);
-        if (tutorial != null)
-            throw new TutorialAlreadyExistsException();
         log.info("Started to create a new tutorial.");
-        Tutorial book = convertToTutorial(request);
-        Tutorial num = tutorialRepository.save(book);
-        log.info("Created a new tutorial 'id={}' database.", num);
+        Tutorial book = tutorialRepository.save(convertToTutorial(request));
+        log.info("Created a new tutorial 'id={}' database.", book);
         System.out.println(book);
         return "Tutorial created successfully";
     }
