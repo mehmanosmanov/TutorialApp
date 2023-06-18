@@ -1,15 +1,13 @@
 package org.tutorial.app.dto.request;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 public class TutorialRequest {
     @ApiModelProperty(notes = "Tutorial title", example = "java-ee", required = true)
     private String title;

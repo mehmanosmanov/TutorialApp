@@ -3,7 +3,8 @@ package org.tutorial.app.dto.response;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-@Data
+@Setter
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
