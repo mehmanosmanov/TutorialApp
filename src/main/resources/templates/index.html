@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>TutorialResponse</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container my-2" align="center">
+    <h3>Tutorial List</h3>
+    <a th:href="@{/web/addnew}" class="btn btn-primary btn-sm mb-3">Add Tutorial</a>
+    <table style="width:80%" border="1"
+           class="table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Name</th>
+            <th>Subject</th>
+            <th>Published</th>
+            <th>Action</th>
+            <th>Cost</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tutorial:${tutorials}">
+            <td th:text="${tutorial.title}"></td>
+            <td th:text="${tutorial.name}"></td>
+            <td th:text="${tutorial.subject}"></td>
+            <td th:text="${tutorial.published}"></td>
+            <td th:text="${tutorial.cost}"></td>
+
+            <td><a th:href="@{/web/showFormForUpdate/{id}(id=${tutorial.id})}"
+                   class="btn btn-primary">Update</a>
+                <a th:href="@{/web/deleteStudent/{id}(id=${tutorial.id})}"
+                   class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

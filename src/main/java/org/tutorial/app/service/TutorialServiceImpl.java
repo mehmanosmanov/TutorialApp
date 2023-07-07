@@ -3,6 +3,8 @@ package org.tutorial.app.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.tutorial.app.client.CostClient;
+import org.tutorial.app.dto.internal.TutorialCost;
 import org.tutorial.app.dto.request.TutorialRequest;
 import org.tutorial.app.dto.response.TutorialResponse;
 import org.tutorial.app.exceptions.NotFoundException;
@@ -21,12 +23,13 @@ public class TutorialServiceImpl implements TutorialService {
 
     private final TutorialRepository tutorialRepository;
     private final TutorialMapper mapper;
-
+    private final CostClient costClient;
 
     @Override
     public String create(TutorialRequest request) {
         log.info("Started to create a new tutorial.");
         Tutorial book = tutorialRepository.save(mapper.dtoToTutorial(request));
+        costClient.postData(TutorialCost.builder().cost(request.getCost()).nameTutorial(request.getName()).id(request.getCostId()).build());
         log.info("Created a new tutorial 'id={}' database.", book);
         System.out.println(book);
         return "Tutorial created successfully";
@@ -36,16 +39,15 @@ public class TutorialServiceImpl implements TutorialService {
     public String update(TutorialRequest tutorialRequest, Long id) {
         getById(id);
         log.info("Start to update tutorial by 'id {}' ", id);
-        Tutorial oldTutorial = tutorialRepository.findById(id).orElseThrow(
+        tutorialRepository.findById(id).orElseThrow(
                 () -> {
                     log.warn("Tutorial is not found with id={} ", id);
                     return new NotFoundException("No such tutorial with id=" + id);
                 });
-        oldTutorial.setName(tutorialRequest.getName());
-        oldTutorial.setSubject(tutorialRequest.getSubject());
-        oldTutorial.setTitle(tutorialRequest.getTitle());
-        oldTutorial.setPublished(tutorialRequest.getPublished());
-        tutorialRepository.save(oldTutorial);
+        Tutorial tutorial = mapper.dtoToTutorial(tutorialRequest);
+        tutorial.setId(id);
+        tutorialRepository.save(tutorial);
+
         log.info("Tutorial 'id={}' is updated", id);
         return "Tutorial updated successfully";
     }
@@ -59,6 +61,8 @@ public class TutorialServiceImpl implements TutorialService {
                     return new NotFoundException("No such tutorial with id=" + id);
                 });
         TutorialResponse tutorialResponse = mapper.tutorialToDto(tutorial);
+        tutorialResponse.setCost(costClient.getData(tutorialResponse.getName()).getCost());
+        tutorialResponse.setCostId(costClient.getData(tutorialResponse.getName()).getId());
         log.info("Tutorial is found with id={} ", id);
         return tutorialResponse;
     }
@@ -66,7 +70,7 @@ public class TutorialServiceImpl implements TutorialService {
     @Override
     public String removeById(Long id) {
         log.info("Starting to search the tutorial in DB");
-        Tutorial tutorial = tutorialRepository.findById(id).orElseThrow(
+        tutorialRepository.findById(id).orElseThrow(
                 () -> {
                     log.warn("Tutorial is not found with id={} ", id);
                     return new NotFoundException("No such tutorial with id=" + id);
@@ -81,6 +85,8 @@ public class TutorialServiceImpl implements TutorialService {
         log.info("Starting to get all tutorials...");
         List<TutorialResponse> tutorialResponses = tutorialRepository.findAll().stream()
                 .map(tutorial -> mapper.tutorialToDto(tutorial)).collect(Collectors.toList());
+
+        tutorialResponses.forEach(t -> t.setCost(costClient.getData(t.getName()).getCost()));
         log.info("All tutorials were fetched");
         return tutorialResponses;
     }

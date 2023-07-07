@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Tutorial Library</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Tutorial Library</h1>
+    <hr>
+    <h2>Update Tutorial</h2>
+    <form action="#" th:action="@{/web/save}" th:object="${tutorial}" method="POST">
+        <!-- Add hidden form field to handle update -->
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{costId}"/>
+        <input type="text" th:field="*{title}" class="form-control mb-4 col-4">
+        <input type="text" th:field="*{name}" class="form-control mb-4 col-4">
+        <input type="text" th:field="*{subject}" class="form-control mb-4 col-4">
+        <input type="text" th:field="*{published}" class="form-control mb-4 col-4">
+        <input type="text" th:field="*{cost}" class="form-control mb-4 col-4">
+
+
+        <button type="submit"  class="btn btn-info col-2"> Update Employee</button>
+    </form>
+    <hr>
+    <a th:href="@{/web/}"> Back to Tutorial List</a>
+</div>
+</body>
+</html>

@@ -17,17 +17,17 @@ databaseChangeLog:
                   name: name
                   type: varchar(55)
                   constraints:
-                    nullable: false
+#                    nullable: false
               - column:
                   name: title
                   type: varchar(55)
                   constraints:
-                    nullable: false
+#                    nullable: false
               - column:
                   name: subject
                   type: varchar(55)
                   constraints:
-                    nullable: false
+#                    nullable: false
               - column:
                   name: published
                   type: boolean

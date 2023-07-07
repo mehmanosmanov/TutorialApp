@@ -1,6 +1,7 @@
 package org.tutorial.app.exceptions;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -14,7 +15,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorMessage> handleException(NotFoundException ex) {
-        log.info(ex.getMessage(),ex);
+        log.info(ex.getMessage(), ex);
         ErrorMessage errorMessage = new ErrorMessage();
         errorMessage.setDate(LocalDateTime.now());
         errorMessage.setStatus(ex.getStatus());
@@ -25,12 +26,21 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(TutorialAlreadyExistsException.class)
     public ResponseEntity<ErrorMessage> handleException(TutorialAlreadyExistsException ex) {
-        log.info(ex.getMessage(),ex);
+        log.info(ex.getMessage(), ex);
         ErrorMessage errorMessage = new ErrorMessage();
         errorMessage.setDate(LocalDateTime.now());
         errorMessage.setStatus(ex.getStatus());
         errorMessage.setErrorCode(ex.getStatus().value());
         errorMessage.setErrorMessage(ex.getMessage());
         return ResponseEntity.status(ex.getStatus()).body(errorMessage);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorMessage> otherExceptions(RuntimeException ex) {
+        log.info(ex.getMessage(), ex);
+        ErrorMessage errorMessage = new ErrorMessage();
+        errorMessage.setDate(LocalDateTime.now());
+        errorMessage.setErrorMessage(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
     }
 }
