@@ -10,5 +10,4 @@ public class ErrorMessage {
     private LocalDateTime date;
     private String errorMessage;
     private int errorCode;
-
 }
